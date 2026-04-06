@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Manager</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            text-align: center;
+        }
+
+        .container {
+            width: 60%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            margin-top: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px;
+            width: 25%;
+        }
+
+        button {
+            padding: 10px 15px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid gray;
+        }
+
+        th {
+            background: #333;
+            color: white;
+        }
+
+        .delete-btn {
+            background: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📞 Contact Manager</h2>
+
+    <input type="text" id="name" placeholder="Enter Name">
+    <input type="text" id="phone" placeholder="Enter Phone">
+    <input type="email" id="email" placeholder="Enter Email">
+    <br>
+    <button onclick="addContact()">Add Contact</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="contactList"></tbody>
+    </table>
+</div>
+
+<script>
+    let contacts = [];
+
+    function addContact() {
+        let name = document.getElementById("name").value;
+        let phone = document.getElementById("phone").value;
+        let email = document.getElementById("email").value;
+
+        if (name === "" || phone === "" || email === "") {
+            alert("Please fill all fields!");
+            return;
+        }
+
+        let contact = { name, phone, email };
+        contacts.push(contact);
+
+        displayContacts();
+
+        document.getElementById("name").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("email").value = "";
+    }
+
+    function displayContacts() {
+        let list = document.getElementById("contactList");
+        list.innerHTML = "";
+
+        contacts.forEach((contact, index) => {
+            let row = `
+                <tr>
+                    <td>${contact.name}</td>
+                    <td>${contact.phone}</td>
+                    <td>${contact.email}</td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteContact(${index})">Delete</button>
+                    </td>
+                </tr>
+            `;
+            list.innerHTML += row;
+        });
+    }
+
+    function deleteContact(index) {
+        contacts.splice(index, 1);
+        displayContacts();
+    }
+</script>
+
+</body>
+</html>
